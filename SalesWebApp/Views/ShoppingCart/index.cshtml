@@ -1,0 +1,63 @@
+﻿@model ShoppingCart
+
+
+@{
+    ViewBag.Title = "Shopping Cart";
+    decimal totalAmount = Model.GetTotalAmount();
+}
+
+<h1>Shopping Cart</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            @foreach (ShoppingCartItem item in Model.Items)
+            {
+                var index = Model.Items.IndexOf(item) + 1;
+                var photoPath = "~/images/" + (item.Food.PhotoPath ?? "nofood.jpeg");        
+                <div class="shopping-cart-item row mb-1">
+                    <div class="col-lg-1 col-md-1 d-flex justify-content-center"><div class="align-self-center">@index</div></div>
+                    <div class="col-lg-2 col-md-3 text-md-left text-center"> 
+                        <img src="@photoPath" asp-append-version="true" class="imageThumbnail-shoppingCart" />
+                    </div>
+                    <div class="col-lg-5 col-md-5 text-md-left text-center">
+                        <div>@item.Food.Name</div>
+                        <div><p class="font-weight-light m-1">@item.Food.ShortDescription</p></div>
+                        <form asp-action="RemoveItemfromCart" asp-route-itemId="@item.Id" method="post">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-2 col-md-1 d-flex justify-content-center"><div class="align-self-center">@string.Format("{0:C}", item.Food.Price) USD</div></div>
+                    <div class="col-lg-2 col-md-2 d-flex justify-content-center">
+                        <div class="align-self-center">
+                            <div class="text-center border border-dark">@item.Quantity</div>
+                            <div class="text-center">
+                                <a asp-action="DecreaseItemInCart" asp-route-itemId="@item.Id"><i class="fas fa-minus-circle" style="color:#80ced6"></i></a>
+                                <a asp-action="AddItemToCart" asp-route-foodId="@item.Food.FoodId" style="color:#80ced6"><i class="fas fa-plus-circle"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            }
+        </div>
+        <div class="col-sm-3" style="height:150px;">
+            <div class="row justify-content-center p-1">
+                <div class="p-0"><p class="font-weight-bold m-0">Total Payment Amount:</p></div>     
+            </div>
+            <div class="row m-1 justify-content-center">
+                <div class="p-1"><h5 class="font-weight-bold text-danger m-0">@string.Format("{0:C}", totalAmount)</h5></div>
+            </div>
+            <hr />
+            <div class="row p-1">
+                <form asp-action="CheckoutCart" class="w-100">
+                    <button type="submit" class="btn btn-success" style="width:100%">Check out</button>
+                </form>
+                <form asp-action="ClearCart" class="w-100 mt-2" method="post">
+                    <button type="submit" class="btn btn-danger" style="width:100%">Clear Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

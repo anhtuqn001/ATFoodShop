@@ -1,0 +1,66 @@
+﻿@model PaginatedList<Food>
+@inject SignInManager<ApplicationUser> signInManager
+@{ 
+    ViewBag.Title = "Food List";
+}
+
+<div class="row justify-content-center">
+    <div class="card-deck col-lg-10 col-12">
+        @if (Model.Count() == 0)
+        {
+            <h2 class="text-danger">No food is found with name = "@ViewBag.SearchString"</h2>
+        }
+        @foreach (var food in Model)
+        {
+            var photoPath = "~/images/" + (food.PhotoPath ?? "nofood.jpeg");
+            <div class="card m-3 product-card">
+                <img class="imageThumbnail card-img-top m-1" src=@photoPath asp-append-version="true" />
+                <div class="card-body p-1">
+                    <div class="m-2"><a asp-action="Details" asp-route-id="@food.FoodId"><h4>@food.Name</h4></a></div>
+                    <div class="ml-2"><p class="font-weight-light m-1">@food.ShortDescription</p></div>
+                    <div class="ml-2 text-right"><h4 class="text-danger">@string.Format("{0:C}", food.Price) USD</h4></div>
+                    <div class="text-right">
+                        <a asp-controller="ShoppingCart" asp-action="AddItemToCart" asp-route-foodId="@food.FoodId" class="btn btn-success m-1" style="width:auto">Add To Cart</a>
+                    </div>
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                    <div class="row justify-content-center">
+                        <a class="btn btn-primary m-1" asp-action="Edit" asp-route-id="@food.FoodId">Edit</a>
+                        <form method="post" asp-action="Delete" asp-route-foodId="@food.FoodId" class="d-inline-block">
+                            <button class="btn btn-danger m-1" type="submit">Delete</button>
+                        </form>
+                    </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@{ 
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevPageNumber = Model.PageIndex - 1;
+    var nextPageNumber = Model.PageIndex + 1; 
+}
+
+<div class="row justify-content-center">
+    <nav aria-label="page navigation">
+        <ul class="pagination">
+            <li class="page-item"><a asp-action="index" asp-route-pagenumber=@prevPageNumber  asp-route-searchstring=@ViewBag.searchstring class="page-link @prevDisabled"><i class="fas fa-backward"></i></a></li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                var currentPage = Model.PageIndex == i ? "current-page" : "";
+                <li class="page-item">
+                    <a asp-action="index" asp-route-searchstring=@ViewBag.searchstring asp-route-pagenumber="@i" class="page-link @currentPage">@i</a>
+                </li>
+            }
+            <li class="page-item"><a asp-action="index" asp-route-pagenumber=@nextPageNumber  asp-route-searchstring=@ViewBag.searchstring class="page-link @nextDisabled"><i class="fas fa-forward"></i></a></li>
+        </ul>
+    </nav>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

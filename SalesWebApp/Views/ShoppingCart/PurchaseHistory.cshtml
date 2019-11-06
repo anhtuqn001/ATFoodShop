@@ -1,0 +1,63 @@
+﻿@model List<ShoppingCart>
+
+@{ 
+    ViewBag.Title = "Purchase History";
+}
+
+<h2>Purchase History</h2>
+
+<table class="table">
+    <thead>
+        <tr class="d-flex">
+            <th class="col-sm-3 text-center">Purchase Time</th>
+            <th class="col-sm-4 text-center">Details</th>
+            <th class="col-sm-3 text-center">Total Amount</th>
+            <th class="col-sm-2 text-center">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cart in Model)
+        {
+            decimal totalAmount = cart.GetTotalAmount();
+
+        <tr class="d-flex">
+            <td class="col-sm-3 text-center">@cart.PurchaseTime</td>
+            <td class="col-sm-4 text-center">
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseDetails_@cart.Id" aria-expanded="false" aria-controls="collapseExample">
+                    Details
+                </button>
+                <div class="collapse" id="collapseDetails_@cart.Id">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Food</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in cart.Items)
+                            {
+                                <tr>
+                                    <td>@item.Food.Name</td>
+                                    <td>@item.Food.Price</td>
+                                    <td>@item.Quantity</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td class="col-sm-3 text-center">@String.Format("{0:C}", totalAmount)</td>
+            @if (cart.IsConfirmed)
+            {
+                <td class="text-success col-sm-2 text-center">Confirmed</td>
+            }
+            else
+            {
+                <td class="text-danger col-sm-2 text-center">Not Confirmed Yet</td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

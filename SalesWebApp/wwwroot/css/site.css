@@ -1,0 +1,111 @@
+﻿.btn {
+    width:75px;
+}
+
+.imageThumbnail {
+    height:200px;
+    width:auto;
+}
+
+@media screen and (min-width: 992px) {
+    .shopping-cart-item {
+        height: 120px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .shopping-cart-item {
+        height: 150px;
+    }
+}
+
+
+.imageThumbnail-shoppingCart {
+    height: 100px;
+    width: 100px;
+}
+
+#CartIcon {
+    color: black;
+}
+
+#CartItemsNumber {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    font-weight: bold;
+    font-size: small;
+}
+
+@media screen and (min-width: 1200px) {
+    #CartItemsNumber {
+        bottom: 18px;
+        right: 10px;
+    }    
+}
+
+@media screen and (min-width: 1200px) {
+    .product-card {
+        min-width: 13rem;
+        max-width: 30.5%;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .product-card {
+        min-width: 15rem;
+        max-width: 50%;
+    }
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 991px) {
+    .product-card {
+        min-width: 15rem;
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 577px) and (max-width: 600px) {
+    .product-card {
+        min-width: 15rem;
+        max-width: 100%;
+    }
+}
+
+
+#SearchInputText {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+#SearchInputButton {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: white;
+    border:none;
+}
+
+.page-link {
+    color: black;
+}
+
+    .page-link:hover {
+        color: white;
+        background-color: #2eb8b8;
+    }
+
+.current-page {
+    color: white;
+    background-color: #2eb8b8;
+}
+
+.disabled {
+    color: gray;
+    pointer-events: none;   
+}
+
+.long-description {
+    text-indent: 20px
+}
+
